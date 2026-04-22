@@ -1,5 +1,5 @@
 # LlamaQuest
-Small test of integrating an LLM with Godot
+Small proof of concept that integrates an LLM with Godot.  It "embeds" an LLM into a Godot game.  It works, and shows examples of how to launch and communicate with the LLM within the game.  Right now, the LLM creates dialogue, quests, and events and creates a RAG (in the simplest use of that term) so that the LLM can integrate game history into it's responses.  All of these are rudimentary.
 
 ## Part 1 - Early Prototype Setup
 We use ollama for this because it's fast and easy to get working.

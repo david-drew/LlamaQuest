@@ -33,7 +33,7 @@ Step 2: Procuring the Executable
 2. Place this executable into the bin/ directory. No installation process required.
 
 Step 3: Updating LlmManager.gd Lifecycle Methods
-1. Your LlmManager Autoload currently acts as the transport pipe, but it now needs to manage the background server's lifecycle.
+1. The LlmManager autoload acts as the transport pipe, but it now also needs to manage the background server's lifecycle.
 
 Booting: 
 1. Update the _ready() function to use Godot's built-in OS.create_process() to silently launch the llama-server executable in the background when the game starts. 

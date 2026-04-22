@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://nq4kyuer08ds"]
 
 [ext_resource type="Script" uid="uid://bxtlblapjihcd" path="res://scripts/ui/btn_quit.gd" id="1_eb6dy"]
-[ext_resource type="Script" uid="uid://dgd6dr3pnh4dg" path="res://scripts/chat_button.gd" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://dgd6dr3pnh4dg" path="res://scripts/ui/btn_chat.gd" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://pmd76nnc7x1r" path="res://scripts/systems/lore_manager.gd" id="2_0wfyh"]
-[ext_resource type="Script" uid="uid://bs5hc0vb5i1md" path="res://scripts/work_button.gd" id="2_o6xl0"]
+[ext_resource type="Script" uid="uid://bs5hc0vb5i1md" path="res://scripts/ui/btn_work.gd" id="2_o6xl0"]
 [ext_resource type="Script" uid="uid://wyrmhj7nn0wh" path="res://scripts/sleep.gd" id="3_choun"]
 [ext_resource type="Script" uid="uid://cx1pv1a87e6x3" path="res://scripts/systems/event_logger.gd" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://d3177dfb4eepc" path="res://scripts/systems/combat_manager.gd" id="4_jyhfs"]
@@ -44,7 +44,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
+theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
@@ -59,7 +59,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 5
@@ -78,11 +77,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_colors/default_color = Color(1, 0.85882354, 0.101960786, 1)
-theme_override_font_sizes/normal_font_size = 14
-theme_override_font_sizes/bold_font_size = 14
-theme_override_font_sizes/bold_italics_font_size = 14
-theme_override_font_sizes/italics_font_size = 14
-theme_override_font_sizes/mono_font_size = 14
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+theme_override_font_sizes/bold_italics_font_size = 12
+theme_override_font_sizes/italics_font_size = 12
+theme_override_font_sizes/mono_font_size = 12
 text = "Thothdawn, Midders 01"
 vertical_alignment = 1
 
@@ -92,11 +91,11 @@ custom_minimum_size = Vector2(340, 30)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_font_sizes/normal_font_size = 14
-theme_override_font_sizes/bold_font_size = 14
-theme_override_font_sizes/bold_italics_font_size = 14
-theme_override_font_sizes/italics_font_size = 14
-theme_override_font_sizes/mono_font_size = 14
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+theme_override_font_sizes/bold_italics_font_size = 10
+theme_override_font_sizes/italics_font_size = 10
+theme_override_font_sizes/mono_font_size = 10
 bbcode_enabled = true
 text = "---"
 vertical_alignment = 1
@@ -107,13 +106,13 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_trceg")
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer" unique_id=1315854828]
-custom_minimum_size = Vector2(80, 30)
+custom_minimum_size = Vector2(70, 30)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 theme_override_colors/font_color = Color(0.8478528, 0.25669146, 0.13728344, 1)
 theme_override_colors/font_hover_color = Color(0.9490196, 0.74509805, 0.13333334, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 14
 text = "QUIT"
 script = ExtResource("1_eb6dy")
 

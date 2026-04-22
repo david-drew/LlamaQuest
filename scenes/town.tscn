@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ikvba7bg7xe5"]
 
-[ext_resource type="Script" uid="uid://b1cm08ikmedlj" path="res://scripts/town_generator.gd" id="1_gt07c"]
+[ext_resource type="Script" uid="uid://b1cm08ikmedlj" path="res://scripts/world/town_generator.gd" id="1_gt07c"]
 
 [node name="Town" type="Node2D" unique_id=700698089]
 script = ExtResource("1_gt07c")

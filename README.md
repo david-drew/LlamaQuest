@@ -35,7 +35,7 @@ Step 2: Get the Executable
 3. You'll also want the Vulkan or CUDA libraries.  Place all of them in the bin/ directory.  You'll end up with around 24 files. 
 4. Only 2 files are currently "safe" to remove:
     mtmd.dll: This is the Multi-Modal backend. It is used for vision and audio models.  
-    ggml-rpc.dll: This is the Remote Procedure Call backend. It is used for distributing an LLM's workload across multiple computers over a network. For a locally hosted, standalone RPG, this will never be used.
+    ggml-rpc.dll: This is the Remote Procedure Call backend. It's used for distributing an LLM's workload across multiple computers over a network. For a locally hosted standalone game, this will never be used.
 
 Step 3: Updating LlmManager.gd Lifecycle Methods
 1. The LlmManager autoload acts as the transport pipe, but it now also needs to manage the background server's lifecycle.
@@ -48,7 +48,8 @@ Booting:
 Step 4: Adjusting the API Payload
 1. llama-server wraps the core engine in a standard REST API compatible with OpenAI's format, we need to tweak how Godot talks to it.
 2. Update the HTTPRequest target URL from Ollama's default http://localhost:11434/api/generate endpoint to the port llama-server uses.
-3. Make minor adjustments to the JSON payload inside the query_llm() function to match the OpenAI-style format expected by the new server.
+       Note: localhost wouldn't work for me, I had to use 127.0.0.1.
+4. Make minor adjustments to the JSON payload inside the query_llm() function to match the OpenAI-style format expected by the new server.
 
 Step 5: The Final Smoke Test
 1. With everything setup, run the existing test scene. If the Chat and Work buttons successfully generate dialogue and quests without Ollama running in the background, the migration is complete!

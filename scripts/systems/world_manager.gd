@@ -9,11 +9,13 @@ var mdate:int = 1
 
 const MODE_OVERLAND := "overland"
 const MODE_SITE := "site"
+const TRANSITION_CONTEXT_SCRIPT := preload("res://scripts/world/transition_context.gd")
 
 var current_mode: String = MODE_OVERLAND
 var current_world: WorldSpec
 var current_site: SiteSpec
 var overland_view: OverlandView
+var transition_context
 
 var world_root: Node2D
 var dialog_panel: Control
@@ -27,6 +29,13 @@ var npc_dialogue_script: Script = preload("res://scripts/npc_dialogue.gd")
 func _ready() -> void:
 	world_root = get_node("/root/Main/World")
 	dialog_panel = get_node("/root/Main/CanvasLayer/MarginContainer/DialogPanel")
+	call_deferred("_enter_overland", Vector2.ZERO)
+
+func regenerate_overland_with_seed(seed: int) -> void:
+	overland_seed = seed
+	current_world = null
+	current_site = null
+	transition_context = null
 	call_deferred("_enter_overland", Vector2.ZERO)
 
 ## Takes the parsed JSON data from the EventGenerator and alters the game state
@@ -89,22 +98,45 @@ func _enter_overland(spawn_position: Vector2 = Vector2.ZERO) -> void:
 
 	var player_spawn := spawn_position
 	if player_spawn == Vector2.ZERO:
-		player_spawn = _get_default_overland_spawn()
+		player_spawn = _get_overland_return_position()
 	_spawn_player(player_spawn)
+	if transition_context != null:
+		transition_context = null
 
 func _on_site_enter_requested(site: SiteSpec) -> void:
 	if current_mode != MODE_OVERLAND:
 		return
 
-	current_site = site
-	_enter_site(site)
+	if not _is_valid_enterable_site(site):
+		push_warning("WorldManager: Invalid site entry request.")
+		return
+
+	var resolved_site := _resolve_site(site.site_id)
+	if resolved_site == null:
+		push_warning("WorldManager: Site id not found in current world: " + site.site_id)
+		return
+
+	current_site = resolved_site
+	_capture_transition_context(resolved_site)
+	call_deferred("_enter_site_deferred")
+
+func _enter_site_deferred() -> void:
+	if current_site == null:
+		return
+	_enter_site(current_site)
 
 func _enter_site(site: SiteSpec) -> void:
+	if not _is_supported_site_type(site.site_type):
+		push_warning("WorldManager: Unknown site type '" + site.site_type + "'. Returning to overland.")
+		_enter_overland(_get_overland_return_position())
+		return
+
 	current_mode = MODE_SITE
 	_clear_world_root()
 
 	if site.site_type == "town":
 		var town := town_scene.instantiate()
+		_apply_entry_context_if_supported(town)
 		world_root.add_child(town)
 
 		var npc_node := Node.new()
@@ -119,22 +151,32 @@ func _enter_site(site: SiteSpec) -> void:
 
 	if site.site_type == "dungeon":
 		var dungeon := dungeon_scene.instantiate()
+		_apply_entry_context_if_supported(dungeon)
 		world_root.add_child(dungeon)
-		_spawn_player(Vector2(0, 40))
+		if dungeon.has_signal("exit_requested"):
+			dungeon.connect("exit_requested", _on_local_site_exit_requested)
+		var dungeon_spawn := Vector2(0, 40)
+		if dungeon.has_method("get_entry_spawn_position"):
+			dungeon_spawn = dungeon.call("get_entry_spawn_position")
+		_spawn_player(dungeon_spawn)
 		_set_dialog_visible(false)
-		_create_local_exit_zone("DungeonExitZone", Vector2(0, -80), "Exit to Overland")
 		return
 
 	if site.site_type == "wilderness_site":
 		var wilderness := wilderness_scene.instantiate()
+		_apply_entry_context_if_supported(wilderness)
 		world_root.add_child(wilderness)
-		_spawn_player(Vector2(0, 40))
+		if wilderness.has_signal("exit_requested"):
+			wilderness.connect("exit_requested", _on_local_site_exit_requested)
+		var wilderness_spawn := Vector2(0, 40)
+		if wilderness.has_method("get_entry_spawn_position"):
+			wilderness_spawn = wilderness.call("get_entry_spawn_position")
+		_spawn_player(wilderness_spawn)
 		_set_dialog_visible(false)
-		_create_local_exit_zone("WildernessExitZone", Vector2(0, -80), "Exit to Overland")
 		return
 
-	push_warning("WorldManager: Unknown site type '" + site.site_type + "'. Returning to overland.")
-	_enter_overland(_get_default_overland_spawn())
+	push_warning("WorldManager: Unsupported site type '" + site.site_type + "'. Returning to overland.")
+	_enter_overland(_get_overland_return_position())
 
 func _create_local_exit_zone(zone_name: String, position: Vector2, label_text: String) -> void:
 	var root := Node2D.new()
@@ -174,13 +216,21 @@ func _create_local_exit_zone(zone_name: String, position: Vector2, label_text: S
 	exit_area.body_entered.connect(_on_local_exit_body_entered)
 
 func _on_local_exit_body_entered(body: Node2D) -> void:
-	if body.name != "Player":
+	if not (body is Player):
 		return
 
-	var return_pos := _get_default_overland_spawn()
-	if current_site != null:
-		return_pos = current_site.position + Vector2(0, 96)
+	request_exit_to_overland()
 
+func request_exit_to_overland() -> void:
+	if current_mode != MODE_SITE:
+		return
+	call_deferred("_return_to_overland_deferred")
+
+func _on_local_site_exit_requested() -> void:
+	request_exit_to_overland()
+
+func _return_to_overland_deferred() -> void:
+	var return_pos := _get_overland_return_position()
 	_enter_overland(return_pos)
 
 func _clear_world_root() -> void:
@@ -200,3 +250,58 @@ func _get_default_overland_spawn() -> Vector2:
 		if site.site_type == "town":
 			return site.position + Vector2(0, 120)
 	return Vector2.ZERO
+
+func _is_valid_enterable_site(site: SiteSpec) -> bool:
+	if site == null:
+		return false
+	if site.site_id == "":
+		return false
+	if not _is_supported_site_type(site.site_type):
+		return false
+	return true
+
+func _is_supported_site_type(site_type: String) -> bool:
+	if site_type == "town":
+		return true
+	if site_type == "dungeon":
+		return true
+	if site_type == "wilderness_site":
+		return true
+	return false
+
+func _resolve_site(site_id: String) -> SiteSpec:
+	if current_world == null:
+		return null
+	for site in current_world.sites:
+		if site.site_id == site_id:
+			return site
+	return null
+
+func _capture_transition_context(site: SiteSpec) -> void:
+	var context = TRANSITION_CONTEXT_SCRIPT.new()
+	context.world_seed = current_world.seed
+	context.site_id = site.site_id
+	context.site_type = site.site_type
+	context.site_seed = site.seed
+	context.site_subtype = site.routing_id
+	context.overland_position_before_entry = _get_player_world_position()
+	context.overland_return_position = site.position + Vector2(0, 96)
+	transition_context = context
+
+func _get_player_world_position() -> Vector2:
+	var player := get_node_or_null("/root/Main/World/Player")
+	if player == null:
+		return _get_default_overland_spawn()
+	return player.global_position
+
+func _get_overland_return_position() -> Vector2:
+	if transition_context != null:
+		if transition_context.world_seed == overland_seed:
+			return transition_context.overland_return_position
+	return _get_default_overland_spawn()
+
+func _apply_entry_context_if_supported(content_node: Node) -> void:
+	if content_node == null:
+		return
+	if content_node.has_method("configure_entry_context"):
+		content_node.call("configure_entry_context", transition_context)

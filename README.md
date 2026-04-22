@@ -29,9 +29,13 @@ Step 1: Directory Setup & Asset Placement
 2. Create a bin/ directory in the Godot project directory. This is where the llama-server executable goes.
 3. Put the qwen3.5-2b-q4_k_m.gguf model file the models/ directory.
 
-Step 2: Procuring the Executable
+Step 2: Get the Executable
 1. Download the pre-compiled llama-server binary for your target operating system (e.g., Windows, macOS, or Linux).
 2. Place this executable into the bin/ directory. No installation process required.
+3. You'll also want the Vulkan or CUDA libraries.  Place all of them in the bin/ directory.  You'll end up with around 24 files. 
+4. Only 2 files are currently "safe" to remove:
+    mtmd.dll: This is the Multi-Modal backend. It is used for vision and audio models.  
+    ggml-rpc.dll: This is the Remote Procedure Call backend. It is used for distributing an LLM's workload across multiple computers over a network. For a locally hosted, standalone RPG, this will never be used.
 
 Step 3: Updating LlmManager.gd Lifecycle Methods
 1. The LlmManager autoload acts as the transport pipe, but it now also needs to manage the background server's lifecycle.

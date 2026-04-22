@@ -9,6 +9,7 @@ Currently using Qwen3.5:2b, this gives good results and can in < 4GB (more like 
 * We choose a small version because we want to be as compatible as possible with modest systems.
 * This version of Qwen did better than Gemma4:e5b and several other models. 
 * The 2b version of Gemma did not give good results for dialogue.
+* The 2b version of Qwen sometimes gets stuck in an endless cycle of thinking.  Set nothink to false.  This vastly speeds up responses, appears to completely remove the endless loops, and the model still produces good results.
 * Qwen3.5:2b is generally responding in about 1 second, though it varies.  Need to test more thoroughly.  If you are struggling with performance, there are probably several optimization steps you've missed.
 
 * Hint 1: /set nothink false

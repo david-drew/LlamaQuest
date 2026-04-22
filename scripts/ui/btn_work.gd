@@ -9,6 +9,9 @@ func _ready() -> void:
 	response_label = $"../../ResponseLabel"
 
 func _on_pressed():
+	if npc_node == null or not is_instance_valid(npc_node):
+		npc_node = get_node_or_null("/root/Main/World/NpcNode")
+
 	if not npc_node:
 		push_error("Work Button: No NPC Node assigned!")
 		return

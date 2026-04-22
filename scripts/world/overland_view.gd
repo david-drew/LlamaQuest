@@ -33,7 +33,7 @@ func _build_background(spec: WorldSpec) -> void:
 	for network in spec.networks:
 		var line := Line2D.new()
 		line.points = network.points
-		line.width = _get_network_width(network.network_type)
+		line.width = network.width
 		line.default_color = _get_network_color(network.network_type)
 		line.z_index = -10
 		add_child(line)
@@ -79,8 +79,11 @@ func _build_sites(spec: WorldSpec) -> void:
 		enter_zone.body_entered.connect(_on_enter_zone_body_entered.bind(site))
 
 func _on_enter_zone_body_entered(body: Node2D, site: SiteSpec) -> void:
-	if body.name != "Player":
+	if not (body is Player):
 		return
+	call_deferred("_emit_site_enter_requested", site)
+
+func _emit_site_enter_requested(site: SiteSpec) -> void:
 	site_enter_requested.emit(site)
 
 func _get_region_color(region_type: String) -> Color:
@@ -96,13 +99,6 @@ func _get_network_color(network_type: String) -> Color:
 	if network_type == "road":
 		return Color(0.66, 0.58, 0.44, 0.88)
 	return Color.WHITE
-
-func _get_network_width(network_type: String) -> float:
-	if network_type == "river":
-		return 16.0
-	if network_type == "road":
-		return 10.0
-	return 8.0
 
 func _make_ellipse(radius: Vector2, points: int = 28) -> PackedVector2Array:
 	var poly := PackedVector2Array()

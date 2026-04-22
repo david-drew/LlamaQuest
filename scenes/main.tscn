@@ -1,0 +1,213 @@
+[gd_scene format=3 uid="uid://nq4kyuer08ds"]
+
+[ext_resource type="Script" uid="uid://bxtlblapjihcd" path="res://scripts/ui/btn_quit.gd" id="1_eb6dy"]
+[ext_resource type="Script" uid="uid://dgd6dr3pnh4dg" path="res://scripts/chat_button.gd" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://pmd76nnc7x1r" path="res://scripts/systems/lore_manager.gd" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://bs5hc0vb5i1md" path="res://scripts/work_button.gd" id="2_o6xl0"]
+[ext_resource type="Script" uid="uid://wyrmhj7nn0wh" path="res://scripts/sleep.gd" id="3_choun"]
+[ext_resource type="Script" uid="uid://cx1pv1a87e6x3" path="res://scripts/systems/event_logger.gd" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://d3177dfb4eepc" path="res://scripts/systems/combat_manager.gd" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://c3j10uak457el" path="res://scripts/systems/history_summarizer.gd" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://7bmcrjy3e3id" path="res://scripts/systems/quest_generator.gd" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://c38x1pdsvuvdo" path="res://scripts/systems/world_manager.gd" id="8_85g3d"]
+[ext_resource type="Script" uid="uid://g7m72h8j0jq0" path="res://scripts/npc_dialogue.gd" id="8_tipki"]
+[ext_resource type="Script" uid="uid://bojddig5q2dv" path="res://scripts/systems/event_generator.gd" id="10_ya4ey"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tbgi4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tefeu"]
+
+[node name="Main" type="Node2D" unique_id=585958280]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1003772938]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=643467562]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HUD" type="Panel" parent="CanvasLayer/MarginContainer" unique_id=346491057]
+custom_minimum_size = Vector2(1800, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HUD" unique_id=913126543]
+custom_minimum_size = Vector2(1800, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -1141.0
+offset_right = 1141.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HUD/MarginContainer" unique_id=1884065109]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="DateLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer" unique_id=1680242866]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/default_color = Color(1, 0.85882354, 0.101960786, 1)
+text = "Thothdawn, Midders 01"
+vertical_alignment = 1
+
+[node name="EventsLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer" unique_id=3372555]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1200, 30)
+layout_mode = 2
+text = "---"
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer" unique_id=1675107779]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer" unique_id=1315854828]
+custom_minimum_size = Vector2(120, 30)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.8478528, 0.25669146, 0.13728344, 1)
+theme_override_colors/font_hover_color = Color(0.9490196, 0.74509805, 0.13333334, 1)
+theme_override_font_sizes/font_size = 24
+text = "QUIT"
+script = ExtResource("1_eb6dy")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer" unique_id=1089804511]
+custom_minimum_size = Vector2(1200, 600)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/Panel" unique_id=56326015]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Panel/MarginContainer" unique_id=53531814]
+layout_mode = 2
+
+[node name="ResponseLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer" unique_id=1335443810]
+custom_minimum_size = Vector2(800, 30)
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer" unique_id=202124715]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tbgi4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer" unique_id=154172161]
+layout_mode = 2
+
+[node name="ChatButton" type="Button" parent="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=550800063]
+custom_minimum_size = Vector2(120, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Chat"
+script = ExtResource("1_o5qli")
+
+[node name="VSeparator" type="VSeparator" parent="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1019718546]
+custom_minimum_size = Vector2(10, 15)
+layout_mode = 2
+theme_override_constants/separation = 20
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tefeu")
+
+[node name="WorkButton" type="Button" parent="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1783704471]
+custom_minimum_size = Vector2(120, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Get Work"
+script = ExtResource("2_o6xl0")
+
+[node name="VSeparator2" type="VSeparator" parent="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=805568168]
+custom_minimum_size = Vector2(10, 15)
+layout_mode = 2
+theme_override_constants/separation = 20
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tefeu")
+
+[node name="SleepButton" type="Button" parent="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=846173661]
+layout_mode = 2
+text = "Sleep"
+script = ExtResource("3_choun")
+
+[node name="Fader" type="ColorRect" parent="CanvasLayer" unique_id=1588290899]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.029506557, 0.029506557, 0.029506557, 1)
+
+[node name="Systems" type="Node" parent="." unique_id=1961427395]
+
+[node name="LoreManager" type="Node" parent="Systems" unique_id=953799554]
+script = ExtResource("2_0wfyh")
+
+[node name="EventLogger" type="Node" parent="Systems" unique_id=2036480894]
+script = ExtResource("3_sugp2")
+metadata/_custom_type_script = "uid://cx1pv1a87e6x3"
+
+[node name="CombatManager" type="Node" parent="Systems" unique_id=2083453917]
+script = ExtResource("4_jyhfs")
+metadata/_custom_type_script = "uid://d3177dfb4eepc"
+
+[node name="HistorySummarizer" type="Node" parent="Systems" unique_id=1813440594]
+script = ExtResource("5_tbgi4")
+metadata/_custom_type_script = "uid://c3j10uak457el"
+
+[node name="QuestGenerator" type="Node" parent="Systems" unique_id=423407104]
+script = ExtResource("6_tefeu")
+metadata/_custom_type_script = "uid://7bmcrjy3e3id"
+
+[node name="WorldManager" type="Node" parent="Systems" unique_id=890668515]
+script = ExtResource("8_85g3d")
+metadata/_custom_type_script = "uid://c38x1pdsvuvdo"
+
+[node name="EventGenerator" type="Node" parent="Systems" unique_id=2002981318]
+script = ExtResource("10_ya4ey")
+metadata/_custom_type_script = "uid://bojddig5q2dv"
+
+[node name="World" type="Node2D" parent="." unique_id=1116926727]
+
+[node name="NpcNode" type="Node" parent="World" unique_id=1288481658]
+unique_name_in_owner = true
+script = ExtResource("8_tipki")
+
+[connection signal="pressed" from="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer/QuitButton" to="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer/QuitButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/ChatButton" to="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/ChatButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/WorkButton" to="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/WorkButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/SleepButton" to="CanvasLayer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/SleepButton" method="_on_pressed"]

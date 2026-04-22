@@ -1,0 +1,16 @@
+{
+  "lore": [
+	{
+	  "tags": ["goblin", "raid", "east", "recent"],
+	  "fact": "The village was raided by goblins from the eastern mountains three days ago. The blacksmith's son was injured."
+	},
+	{
+	  "tags": ["king", "aldric", "ruler", "old kingdom"],
+	  "fact": "King Aldric is the current ruler of the Old Kingdom. He is considered paranoid and heavily taxes the poor."
+	},
+	{
+	  "tags": ["iron", "sword", "blacksmith", "thorin"],
+	  "fact": "Thorin the Blacksmith desperately needs iron ore to repair the village guard's weapons after the goblin raid."
+	}
+  ]
+}

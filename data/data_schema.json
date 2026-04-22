@@ -1,0 +1,11 @@
+{
+  "quest_id": "string (snake_case, unique identifier)",
+  "title": "string (Player-facing quest name)",
+  "dialogue_pitch": "string (The exact dialogue the NPC says to give the quest)",
+  "objective_action": "string (MUST be one of: 'kill', 'fetch', 'explore')",
+  "objective_target": "string (The specific enemy, item, or location ID)",
+  "objective_amount": "integer (How many to kill/fetch. Use 1 for explore)",
+  "reward_type": "string (MUST be one of: 'gold', 'xp', 'item')",
+  "reward_target": "string (If reward_type is item, the item ID. Otherwise 'none')",
+  "reward_amount": "integer"
+}

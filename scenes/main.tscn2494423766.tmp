@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://nq4kyuer08ds"]
+
+[ext_resource type="Script" uid="uid://dgd6dr3pnh4dg" path="res://scripts/npc_button.gd" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://pmd76nnc7x1r" path="res://scripts/systems/lore_manager.gd" id="2_0wfyh"]
+
+[node name="Main" type="Node2D" unique_id=585958280]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1003772938]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=643467562]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer" unique_id=1089804511]
+custom_minimum_size = Vector2(380, 280)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Panel" unique_id=53531814]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/Panel/HBoxContainer" unique_id=550800063]
+custom_minimum_size = Vector2(120, 30)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "NPC Dialogue"
+script = ExtResource("1_o5qli")
+
+[node name="ResponseLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/Panel/HBoxContainer" unique_id=1335443810]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+
+[node name="Systems" type="Node" parent="." unique_id=1961427395]
+
+[node name="LoreManager" type="Node" parent="Systems" unique_id=953799554]
+script = ExtResource("2_0wfyh")

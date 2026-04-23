@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WorldFeatureDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/world_feature_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "town"
+feature_class = "site"
+site_type = "town"
+subtype = "walled_market_town"
+generator_id = "town"
+version = 1
+tags = PackedStringArray("settlement", "enterable")
+weight = 1.0
+min_instances_per_world = 1
+max_instances_per_world = 1
+placement_rules = {"requires_road": true}
+context_rules = {}
+generation_defaults = {"building_profile": "prototype_town", "district_style": "market_town", "has_wall": true, "special_features": PackedStringArray("market_square")}
+derived_tags = PackedStringArray("site")

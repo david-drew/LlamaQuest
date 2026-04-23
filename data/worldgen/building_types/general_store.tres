@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "general_store"
+version = 1
+tags = PackedStringArray("service", "center")
+lot_rules = {"district_tags": PackedStringArray("center", "roadside")}
+footprint_rules = {"default_size": Vector2(190, 125), "size_variation": Vector2(22, 14), "min_size": Vector2(150, 95)}
+entrance_rules = {"preferred_frontage": "road"}
+attachment_rules = {}
+visual_rules = {"display_name": "General Store", "color": Color(0.333333, 0.419608, 0.184314, 1), "placement": "center", "accent": "stall"}

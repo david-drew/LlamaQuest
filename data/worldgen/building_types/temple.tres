@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "temple"
+version = 1
+tags = PackedStringArray("civic", "center")
+lot_rules = {"district_tags": PackedStringArray("center", "civic")}
+footprint_rules = {"default_size": Vector2(190, 170), "size_variation": Vector2(12, 12)}
+entrance_rules = {"preferred_frontage": "square"}
+attachment_rules = {}
+visual_rules = {"display_name": "Temple", "color": Color(0.690196, 0.768627, 0.870588, 1), "placement": "center", "accent": "forecourt"}

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "house"
+version = 1
+tags = PackedStringArray("residential", "any")
+lot_rules = {"district_tags": PackedStringArray("residential", "edge")}
+footprint_rules = {"default_size": Vector2(130, 96), "size_variation": Vector2(18, 14), "min_size": Vector2(90, 70)}
+entrance_rules = {"preferred_frontage": "road"}
+attachment_rules = {}
+visual_rules = {"display_name": "House", "color": Color(0.803922, 0.521569, 0.247059, 1), "placement": "any", "accent": "roof_patch"}

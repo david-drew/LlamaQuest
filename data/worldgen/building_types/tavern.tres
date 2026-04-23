@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "tavern"
+version = 1
+tags = PackedStringArray("service", "lodging", "center")
+lot_rules = {"district_tags": PackedStringArray("center", "roadside")}
+footprint_rules = {"default_size": Vector2(230, 150), "size_variation": Vector2(25, 18), "min_size": Vector2(180, 110)}
+entrance_rules = {"preferred_frontage": "road"}
+attachment_rules = {}
+visual_rules = {"display_name": "Tavern", "color": Color(0.627451, 0.321569, 0.176471, 1), "placement": "center", "accent": "porch"}

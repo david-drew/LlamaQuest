@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "blacksmith"
+version = 1
+tags = PackedStringArray("craft", "edge")
+lot_rules = {"district_tags": PackedStringArray("edge", "workshop")}
+footprint_rules = {"default_size": Vector2(170, 120), "size_variation": Vector2(20, 16), "min_size": Vector2(130, 90)}
+entrance_rules = {"preferred_frontage": "road"}
+attachment_rules = {"allows_yard": true}
+visual_rules = {"display_name": "Blacksmith", "color": Color(0.545098, 0, 0, 1), "placement": "edge", "accent": "forge_yard"}

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "workshop"
+version = 1
+tags = PackedStringArray("craft", "edge")
+lot_rules = {"district_tags": PackedStringArray("edge", "workshop")}
+footprint_rules = {"default_size": Vector2(165, 120), "size_variation": Vector2(18, 14)}
+entrance_rules = {"preferred_frontage": "road"}
+attachment_rules = {}
+visual_rules = {"display_name": "Workshop", "color": Color(0.737255, 0.560784, 0.560784, 1), "placement": "edge", "accent": "storage"}

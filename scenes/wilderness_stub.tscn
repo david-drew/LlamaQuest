@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://scripts/world/wilderness_site_stub.gd" id="1_stub"]
+[ext_resource type="Script" path="res://scripts/world/wilderness_site_scene.gd" id="1_stub"]
 
-[node name="WildernessStub" type="Node2D"]
+[node name="WildernessSiteScene" type="Node2D"]
 script = ExtResource("1_stub")
 base_title = "Amber Meadow"

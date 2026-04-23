@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "guard_post"
+version = 1
+tags = PackedStringArray("defense", "gate")
+lot_rules = {"district_tags": PackedStringArray("gate", "edge")}
+footprint_rules = {"default_size": Vector2(150, 110), "size_variation": Vector2(10, 10)}
+entrance_rules = {"preferred_frontage": "gate"}
+attachment_rules = {}
+visual_rules = {"display_name": "Guard Post", "color": Color(0.439216, 0.501961, 0.564706, 1), "placement": "gate_side", "accent": "side_room"}

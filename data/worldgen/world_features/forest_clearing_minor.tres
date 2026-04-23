@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WorldFeatureDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/world_feature_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "forest_clearing_minor"
+feature_class = "site"
+site_type = "wilderness_site"
+subtype = "forest_clearing"
+generator_id = "wilderness_site_generator_v1"
+version = 1
+tags = PackedStringArray("outdoor", "wilderness", "enterable")
+weight = 1.0
+min_instances_per_world = 1
+max_instances_per_world = 1
+placement_rules = {"prefer_near_forest": true}
+context_rules = {}
+generation_defaults = {"site_radius_tier": "small", "blocker_density": "medium", "poi_type": "standing_stones", "has_side_path": true, "ground_cover": "forest_floor", "feature_profile": "default_forest_clearing"}
+derived_tags = PackedStringArray("site")

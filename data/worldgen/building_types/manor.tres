@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "manor"
+version = 1
+tags = PackedStringArray("civic", "center")
+lot_rules = {"district_tags": PackedStringArray("center", "civic")}
+footprint_rules = {"default_size": Vector2(270, 180), "size_variation": Vector2(20, 16)}
+entrance_rules = {"preferred_frontage": "road"}
+attachment_rules = {}
+visual_rules = {"display_name": "Manor", "color": Color(0.854902, 0.647059, 0.12549, 1), "placement": "center", "accent": "court"}

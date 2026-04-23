@@ -49,7 +49,7 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="HUD" type="Panel" parent="CanvasLayer/MarginContainer" unique_id=346491057]
-custom_minimum_size = Vector2(640, 26)
+custom_minimum_size = Vector2(640, 34)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -59,14 +59,12 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -3.0
-offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HUD/MarginContainer" unique_id=1884065109]
 layout_mode = 2
@@ -74,22 +72,22 @@ size_flags_horizontal = 0
 
 [node name="DateLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer" unique_id=1680242866]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(110, 16)
+custom_minimum_size = Vector2(130, 20)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 theme_override_colors/default_color = Color(1, 0.85882354, 0.101960786, 1)
-theme_override_font_sizes/normal_font_size = 8
-theme_override_font_sizes/bold_font_size = 8
-theme_override_font_sizes/bold_italics_font_size = 8
-theme_override_font_sizes/italics_font_size = 8
-theme_override_font_sizes/mono_font_size = 8
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+theme_override_font_sizes/bold_italics_font_size = 10
+theme_override_font_sizes/italics_font_size = 10
+theme_override_font_sizes/mono_font_size = 10
 text = "Thothdawn, Midders 01"
 vertical_alignment = 1
 
 [node name="EventsLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer" unique_id=3372555]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(430, 24)
+custom_minimum_size = Vector2(410, 30)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -103,18 +101,18 @@ text = "---"
 vertical_alignment = 1
 
 [node name="VSeparator" type="VSeparator" parent="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer" unique_id=1675107779]
-custom_minimum_size = Vector2(11, 0)
+custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_trceg")
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/MarginContainer/HUD/MarginContainer/HBoxContainer" unique_id=1315854828]
-custom_minimum_size = Vector2(70, 14)
+custom_minimum_size = Vector2(70, 20)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_colors/font_color = Color(0.8478528, 0.25669146, 0.13728344, 1)
 theme_override_colors/font_hover_color = Color(0.9490196, 0.74509805, 0.13333334, 1)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "QUIT"
 script = ExtResource("1_eb6dy")
 

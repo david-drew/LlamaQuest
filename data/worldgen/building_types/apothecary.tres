@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "apothecary"
+version = 1
+tags = PackedStringArray("service", "center")
+lot_rules = {"district_tags": PackedStringArray("center", "roadside")}
+footprint_rules = {"default_size": Vector2(150, 110), "size_variation": Vector2(14, 10)}
+entrance_rules = {"preferred_frontage": "road"}
+attachment_rules = {"allows_garden": true}
+visual_rules = {"display_name": "Apothecary", "color": Color(0.576471, 0.439216, 0.858824, 1), "placement": "center", "accent": "garden"}

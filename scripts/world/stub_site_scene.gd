@@ -4,6 +4,8 @@ extends Node2D
 @export var title: String = "Stub Site"
 @export var clear_color: Color = Color.DIM_GRAY
 var entry_context
+var site_spec: SiteSpec
+var site_delta: SiteRuntimeDelta
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(clear_color)
@@ -34,6 +36,11 @@ func _build_stub_layout() -> void:
 
 func configure_entry_context(context) -> void:
 	entry_context = context
+
+func configure_site_runtime(context, spec: SiteSpec, delta: SiteRuntimeDelta) -> void:
+	entry_context = context
+	site_spec = spec
+	site_delta = delta
 
 func _make_centered_rect(size: Vector2) -> PackedVector2Array:
 	var half := size / 2.0

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="BuildingProfileDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_profile_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "prototype_town"
+version = 1
+tags = PackedStringArray("prototype", "town")
+allowed_town_subtypes = PackedStringArray("town", "walled_market_town", "")
+scale_rules = {}
+building_types = {
+"tavern": {"min_count": 1, "max_count": 3, "placement": "center"},
+"inn": {"min_count": 1, "max_count": 2, "placement": "center"},
+"house": {"min_count": 5, "max_count": 10, "placement": "any"},
+"blacksmith": {"min_count": 1, "max_count": 2, "placement": "edge"},
+"general_store": {"min_count": 1, "max_count": 2, "placement": "center"},
+"temple": {"min_count": 1, "max_count": 1, "placement": "center"},
+"stable": {"min_count": 1, "max_count": 2, "placement": "edge"},
+"guard_post": {"min_count": 1, "max_count": 2, "placement": "gate_side"},
+"workshop": {"min_count": 1, "max_count": 3, "placement": "edge"},
+"apothecary": {"min_count": 1, "max_count": 1, "placement": "center"},
+"manor": {"min_count": 1, "max_count": 1, "placement": "center"}
+}
+guaranteed_buildings = PackedStringArray("tavern", "general_store")
+special_feature_requirements = {
+"blacksmith": PackedStringArray("blacksmith"),
+"market_square": PackedStringArray("tavern", "general_store"),
+"stable": PackedStringArray("stable"),
+"temple": PackedStringArray("temple")
+}
+district_bias = {}
+fallback_rules = {"allow_hardcoded_town_fallback": true, "fill_with": "house", "leave_empty_fraction": 0.18, "max_fill": 8, "prefer_optional_before_fill": true}

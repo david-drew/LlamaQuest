@@ -8,9 +8,23 @@ const TRANSITION_CONTEXT_SCRIPT := preload("res://scripts/world/transition_conte
 @export var base_title: String = "Wilderness Site"
 
 var entry_context
+var site_spec: SiteSpec
+var site_delta: SiteRuntimeDelta
+var traversal_anchors: Dictionary = {}
+
+func configure_site_runtime(context, spec: SiteSpec, delta: SiteRuntimeDelta) -> void:
+	configure_entry_context(context)
+	site_spec = spec
+	site_delta = delta
+
+func setup_from_site_spec(spec: SiteSpec, transition, runtime_state: WorldRuntimeState) -> void:
+	configure_entry_context(transition)
+	site_spec = spec
+	if runtime_state != null and runtime_state.site_deltas.has(spec.site_id):
+		site_delta = runtime_state.site_deltas[spec.site_id]
 
 func configure_entry_context(context) -> void:
-	if context != null and context is TRANSITION_CONTEXT_SCRIPT:
+	if context != null and context is TransitionContext:
 		entry_context = context
 	else:
 		entry_context = null
@@ -21,6 +35,52 @@ func _ready() -> void:
 
 func get_entry_spawn_position() -> Vector2:
 	return Vector2(0, MAP_SIZE.y * 0.36)
+
+func resolve_spawn_anchor(transition) -> Node2D:
+	_ensure_traversal_anchors()
+	var anchor_id: String = _resolve_anchor_id(transition)
+	if traversal_anchors.has(anchor_id):
+		return traversal_anchors[anchor_id] as Node2D
+	push_warning("WildernessSiteStub: Missing requested spawn anchor '" + anchor_id + "'; using default_entry.")
+	return traversal_anchors["default_entry"] as Node2D
+
+func resolve_spawn_position(transition) -> Vector2:
+	var anchor: Node2D = resolve_spawn_anchor(transition)
+	print("WildernessSiteStub: Resolved spawn anchor '" + anchor.name + "' at " + str(anchor.global_position) + ".")
+	return anchor.global_position
+
+func prepare_for_exit(exit_point_id: String) -> Dictionary:
+	return {
+		"exit_point_id": exit_point_id,
+		"local_exit_position": Vector2(0, MAP_SIZE.y * 0.44)
+	}
+
+func _ensure_traversal_anchors() -> void:
+	if not traversal_anchors.is_empty():
+		return
+	_add_traversal_anchor("north_entry", Vector2(0, -MAP_SIZE.y * 0.36))
+	_add_traversal_anchor("south_entry", Vector2(0, MAP_SIZE.y * 0.36))
+	_add_traversal_anchor("east_entry", Vector2(MAP_SIZE.x * 0.36, 0))
+	_add_traversal_anchor("west_entry", Vector2(-MAP_SIZE.x * 0.36, 0))
+	_add_traversal_anchor("main_entry", get_entry_spawn_position())
+	_add_traversal_anchor("default_entry", get_entry_spawn_position())
+	_add_traversal_anchor("main_exit", Vector2(0, MAP_SIZE.y * 0.44))
+	_add_traversal_anchor("default_exit", Vector2(0, MAP_SIZE.y * 0.44))
+
+func _add_traversal_anchor(anchor_id: String, anchor_position: Vector2) -> void:
+	var anchor: Node2D = Node2D.new()
+	anchor.name = anchor_id
+	anchor.position = anchor_position
+	add_child(anchor)
+	traversal_anchors[anchor_id] = anchor
+
+func _resolve_anchor_id(transition) -> String:
+	if transition != null:
+		if String(transition.entry_point_id) != "":
+			return String(transition.entry_point_id)
+		if transition.spawn_hint.has("preferred_spawn_tag") and String(transition.spawn_hint["preferred_spawn_tag"]) != "":
+			return String(transition.spawn_hint["preferred_spawn_tag"])
+	return "default_entry"
 
 func _build_layout() -> void:
 	var rng := RandomNumberGenerator.new()
@@ -125,13 +185,21 @@ func _emit_exit_requested() -> void:
 	exit_requested.emit()
 
 func _get_deterministic_seed() -> int:
+	if site_spec != null and site_spec.seed != 0:
+		return site_spec.seed
 	if entry_context == null:
-		return 0
+		push_error("WildernessSiteStub: Missing nonzero SiteSpec seed; using deterministic fallback seed 1.")
+		return 1
+	if int(entry_context.site_seed) == 0:
+		push_error("WildernessSiteStub: Missing nonzero transition site_seed; using deterministic fallback seed 1.")
+		return 1
 	return int(entry_context.site_seed) ^ int(entry_context.site_id.hash())
 
 func _get_title_text() -> String:
 	if entry_context == null:
 		return base_title
+	if site_delta != null and site_delta.visited:
+		return "%s: %s (visited)" % [base_title, entry_context.site_id]
 	return "%s: %s (%d)" % [base_title, entry_context.site_id, entry_context.site_seed]
 
 func _make_centered_rect(size: Vector2) -> PackedVector2Array:

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "inn"
+version = 1
+tags = PackedStringArray("service", "lodging", "center")
+lot_rules = {"district_tags": PackedStringArray("center", "roadside")}
+footprint_rules = {"default_size": Vector2(250, 160), "size_variation": Vector2(30, 18)}
+entrance_rules = {"preferred_frontage": "road"}
+attachment_rules = {}
+visual_rules = {"display_name": "Inn", "color": Color(0, 0.74902, 1, 1), "placement": "center", "accent": "courtyard"}

@@ -3,14 +3,30 @@ extends Node2D
 signal exit_requested
 
 const MAP_SIZE := Vector2(1800, 1200)
+const EXIT_STAIR_POSITION := Vector2(0, -MAP_SIZE.y * 0.40)
+const ENTRY_SPAWN_OFFSET_FROM_STAIRS := Vector2(0, 120)
 const TRANSITION_CONTEXT_SCRIPT := preload("res://scripts/world/transition_context.gd")
 
 @export var base_title: String = "Dungeon Stub"
 
 var entry_context
+var site_spec: SiteSpec
+var site_delta: SiteRuntimeDelta
+var traversal_anchors: Dictionary = {}
+
+func configure_site_runtime(context, spec: SiteSpec, delta: SiteRuntimeDelta) -> void:
+	configure_entry_context(context)
+	site_spec = spec
+	site_delta = delta
+
+func setup_from_site_spec(spec: SiteSpec, transition, runtime_state: WorldRuntimeState) -> void:
+	configure_entry_context(transition)
+	site_spec = spec
+	if runtime_state != null and runtime_state.site_deltas.has(spec.site_id):
+		site_delta = runtime_state.site_deltas[spec.site_id]
 
 func configure_entry_context(context) -> void:
-	if context != null and context is TRANSITION_CONTEXT_SCRIPT:
+	if context != null and context is TransitionContext:
 		entry_context = context
 	else:
 		entry_context = null
@@ -20,7 +36,37 @@ func _ready() -> void:
 	_build_layout()
 
 func get_entry_spawn_position() -> Vector2:
-	return Vector2(0, MAP_SIZE.y * 0.34)
+	return EXIT_STAIR_POSITION + ENTRY_SPAWN_OFFSET_FROM_STAIRS
+
+func resolve_spawn_anchor(transition) -> Node2D:
+	_ensure_traversal_anchors()
+	return traversal_anchors["main_entry"] as Node2D
+
+func resolve_spawn_position(transition) -> Vector2:
+	var anchor: Node2D = resolve_spawn_anchor(transition)
+	print("DungeonSiteStub: Resolved spawn anchor '" + anchor.name + "' at " + str(anchor.global_position) + ".")
+	return anchor.global_position
+
+func prepare_for_exit(exit_point_id: String) -> Dictionary:
+	return {
+		"exit_point_id": exit_point_id,
+		"local_exit_position": EXIT_STAIR_POSITION
+	}
+
+func _ensure_traversal_anchors() -> void:
+	if not traversal_anchors.is_empty():
+		return
+	_add_traversal_anchor("main_entry", get_entry_spawn_position())
+	_add_traversal_anchor("default_entry", get_entry_spawn_position())
+	_add_traversal_anchor("main_exit", EXIT_STAIR_POSITION)
+	_add_traversal_anchor("default_exit", EXIT_STAIR_POSITION)
+
+func _add_traversal_anchor(anchor_id: String, anchor_position: Vector2) -> void:
+	var anchor: Node2D = Node2D.new()
+	anchor.name = anchor_id
+	anchor.position = anchor_position
+	add_child(anchor)
+	traversal_anchors[anchor_id] = anchor
 
 func _build_layout() -> void:
 	var rng := RandomNumberGenerator.new()
@@ -104,7 +150,7 @@ func _add_labels() -> void:
 func _add_exit_affordance() -> void:
 	var exit_root := Node2D.new()
 	exit_root.name = "DungeonExit"
-	exit_root.position = Vector2(0, -MAP_SIZE.y * 0.40)
+	exit_root.position = EXIT_STAIR_POSITION
 	add_child(exit_root)
 
 	var stairs := Polygon2D.new()
@@ -149,8 +195,14 @@ func _emit_exit_requested() -> void:
 	exit_requested.emit()
 
 func _get_deterministic_seed() -> int:
+	if site_spec != null and site_spec.seed != 0:
+		return site_spec.seed
 	if entry_context == null:
-		return 0
+		push_error("DungeonSiteStub: Missing nonzero SiteSpec seed; using deterministic fallback seed 1.")
+		return 1
+	if int(entry_context.site_seed) == 0:
+		push_error("DungeonSiteStub: Missing nonzero transition site_seed; using deterministic fallback seed 1.")
+		return 1
 	return int(entry_context.site_seed) ^ int(entry_context.site_id.hash())
 
 func _get_title_text() -> String:

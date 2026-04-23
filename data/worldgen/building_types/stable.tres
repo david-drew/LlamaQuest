@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingTypeDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/worldgen/data/building_type_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "stable"
+version = 1
+tags = PackedStringArray("service", "edge")
+lot_rules = {"district_tags": PackedStringArray("edge", "roadside")}
+footprint_rules = {"default_size": Vector2(220, 110), "size_variation": Vector2(20, 12)}
+entrance_rules = {"preferred_frontage": "road"}
+attachment_rules = {"allows_yard": true}
+visual_rules = {"display_name": "Stable", "color": Color(0.545098, 0.270588, 0.07451, 1), "placement": "edge", "accent": "pen"}
